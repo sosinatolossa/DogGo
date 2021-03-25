@@ -25,13 +25,20 @@ namespace DogGo.Controllers
         {
             List<Walker> walkers = _walkerRepo.GetAllWalkers();
 
-            return View(walkers);
+            return View(walkers); //this the controller passing data it got from the url to View
         }
 
         // GET: WalkersController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id) //we're passing in an id
         {
-            return View();
+            Walker walker = _walkerRepo.GetWalkerById(id); //and use that id here
+
+            if (walker == null)
+            {
+                return NotFound(); //if it didn't find that id, it's going to call this method that says like it didn't find the id
+            }
+
+            return View(walker); //otherwise we're gonna call walker and say give me a view of it
         }
 
         // GET: WalkersController/Create
