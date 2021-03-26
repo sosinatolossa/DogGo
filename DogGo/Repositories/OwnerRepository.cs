@@ -8,7 +8,7 @@ namespace DogGo.Repositories
     public class OwnerRepository : IOwnerRepository
     {
         private readonly IConfiguration _config;
-        private Owner owner;
+        public Owner owner;
 
         //public Owner owner;
 
@@ -74,7 +74,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Email, [Name], Address, NeighborhoodId, Phone
+                        SELECT Id, [Email], Name, Address, NeighborhoodId, Phone
                         FROM Owner
                         WHERE Id = @id
                     ";
@@ -106,6 +106,7 @@ namespace DogGo.Repositories
                 }
             }
         }
+
         public Owner GetOwnerByEmail(string email)
         {
             using (SqlConnection conn = Connection)
@@ -220,6 +221,5 @@ namespace DogGo.Repositories
                 }
             }
         }
-
     }
 }
