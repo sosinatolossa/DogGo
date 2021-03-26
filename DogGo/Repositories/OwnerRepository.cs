@@ -8,7 +8,9 @@ namespace DogGo.Repositories
     public class OwnerRepository : IOwnerRepository
     {
         private readonly IConfiguration _config;
-        public Owner owner;
+        private Owner owner;
+
+        //public Owner owner;
 
         // The constructor accepts an IConfiguration object as a parameter. This class comes from the ASP.NET framework and is useful for retrieving things out of the appsettings.json file like connection strings.
         public OwnerRepository(IConfiguration config)
@@ -32,7 +34,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, [Email], Name, Address, NeighborhoodId, Phone
+                        SELECT Id, Email, [Name], Address, NeighborhoodId, Phone
                         FROM Owner
                     ";
 
@@ -47,7 +49,7 @@ namespace DogGo.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Address = reader.GetString(reader.GetOrdinal("Adress")),
+                            Address = reader.GetString(reader.GetOrdinal("Address")),
                             NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
                             Phone = reader.GetString(reader.GetOrdinal("Phone"))
 
@@ -72,7 +74,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, [Email], Name, Address, NeighborhoodId, Phone
+                        SELECT Id, Email, [Name], Address, NeighborhoodId, Phone
                         FROM Owner
                         WHERE Id = @id
                     ";
@@ -88,7 +90,7 @@ namespace DogGo.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Address = reader.GetString(reader.GetOrdinal("Adress")),
+                            Address = reader.GetString(reader.GetOrdinal("Address")),
                             NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
                             Phone = reader.GetString(reader.GetOrdinal("Phone"))
                         };
