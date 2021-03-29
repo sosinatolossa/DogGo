@@ -91,7 +91,7 @@ namespace DogGo.Repositories
 
                     if (reader.Read())
                     {
-                        Owner walker = new Owner
+                        Owner owner = new Owner
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
