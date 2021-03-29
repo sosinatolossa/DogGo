@@ -33,9 +33,11 @@ namespace DogGo.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    // we're adding neighborhood name to owner
                     cmd.CommandText = @"
-                        SELECT Id, Email, [Name], Address, NeighborhoodId, Phone
+                        SELECT Owner.Id, Email, Owner.[Name], Address, NeighborhoodId, Phone, Neighborhood.Name as NeighborhoodName
                         FROM Owner
+                        Left Join Neighborhood on Owner.NeighborhoodId = Neighborhood.Id
                     ";
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -52,7 +54,11 @@ namespace DogGo.Repositories
                             Address = reader.GetString(reader.GetOrdinal("Address")),
                             NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
                             Phone = reader.GetString(reader.GetOrdinal("Phone"))
+                        };
 
+                        owner.Neighborhood = new Neighborhood
+                        {
+                            Name = reader.GetString(reader.GetOrdinal("NeighborhoodName")),
                         };
 
                         //adding it to the list
