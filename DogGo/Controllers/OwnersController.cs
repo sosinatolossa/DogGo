@@ -12,31 +12,30 @@ namespace DogGo.Controllers
 {
     public class OwnersController : Controller
     {
-        private readonly IOwnerRepository _ownerRepo;
+        private readonly IOwnerRepository _ownerRepo; //IOwnerRepository is a type here of the variable but OwnerRepository is a value type
        // private readonly IDogRepository _dogRepo;
         private readonly IWalkerRepository _walkerRepo;
+        private readonly INeighborhoodRepository _neighborhoodRepo;
+
 
 
         public OwnersController(
             IOwnerRepository ownerRepository,
            // IDogRepository dogRepository,
-            IWalkerRepository walkerRepository)
+            IWalkerRepository walkerRepository,
+            INeighborhoodRepository neighborhoodRepository)
         {
             _ownerRepo = ownerRepository;
            // _dogRepo = dogRepository;
             _walkerRepo = walkerRepository;
+            _neighborhoodRepo = neighborhoodRepository;
         }
 
-        // ASP.NET will give us an instance of our Owner Repository. This is called "Dependency Injection"
-        public OwnersController(IOwnerRepository ownerRepository)
-        {
-            _ownerRepo = ownerRepository;
-        }
+  
         // GET: OwnersController
         public ActionResult Index()
         {
             List<Owner> owners = _ownerRepo.GetAllOwners();
-
             return View(owners);
         }
 
@@ -58,10 +57,18 @@ namespace DogGo.Controllers
             return View(vm);
         }
 
-        // GET: OwnersController/Create
+        // GET: Owners/Create
         public ActionResult Create()
         {
-            return View();
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+
+            OwnerFormViewModel vm = new OwnerFormViewModel()
+            {
+                Owner = new Owner(),
+                Neighborhoods = neighborhoods
+            };
+
+            return View(vm);
         }
 
         // POST: OwnersController/Create
