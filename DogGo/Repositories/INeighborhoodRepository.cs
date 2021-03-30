@@ -1,11 +1,13 @@
-﻿using System;
+﻿using DogGo.Models;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DogGo.Repositories
 {
-    public class INeighborhoodRepository
+    public interface INeighborhoodRepository
     {
+        //SqlConnection Connection { get; }
+
+        List<Neighborhood> GetAll();
     }
 }
