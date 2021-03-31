@@ -55,11 +55,11 @@ namespace DogGo.Controllers
             {
                 _dogRepo.AddDog(dog);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index"); // RedirectToAction "is-a" ActionResult
             }
             catch (Exception ex)
             {
-                return View(dog);
+                return View(dog); //View is "is-a"ActionResult
             }
         }
 
