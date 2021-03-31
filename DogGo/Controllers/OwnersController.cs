@@ -12,7 +12,7 @@ namespace DogGo.Controllers
 {
     public class OwnersController : Controller
     {
-        private readonly IOwnerRepository _ownerRepo; //IOwnerRepository is a type here of the variable but OwnerRepository is a value type
+        private readonly IOwnerRepository _ownerRepo; //IOwnerRepository is a type here of the variable 
        // private readonly IDogRepository _dogRepo;
         private readonly IWalkerRepository _walkerRepo;
         private readonly INeighborhoodRepository _neighborhoodRepo;
@@ -20,7 +20,7 @@ namespace DogGo.Controllers
 
 
         public OwnersController(
-            IOwnerRepository ownerRepository,
+            IOwnerRepository ownerRepository, // ownerRepository is a value type
            // IDogRepository dogRepository,
             IWalkerRepository walkerRepository,
             INeighborhoodRepository neighborhoodRepository)
