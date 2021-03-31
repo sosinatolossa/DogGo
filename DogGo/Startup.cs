@@ -27,6 +27,7 @@ namespace DogGo
             services.AddControllersWithViews();
             services.AddTransient<IWalkerRepository, WalkerRepository>();
             services.AddTransient<IOwnerRepository, OwnerRepository>(); //this is saying whenever you see IOwnerRepository, you have to make OwnerRepository. And we're telling ASP>met to do this
+            services.AddTransient<IDogRepository, DogRepository>();
             services.AddTransient<INeighborhoodRepository, NeighborhoodRepository>();
         }
 
