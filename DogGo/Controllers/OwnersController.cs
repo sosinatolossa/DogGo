@@ -13,7 +13,7 @@ namespace DogGo.Controllers
     public class OwnersController : Controller
     {
         private readonly IOwnerRepository _ownerRepo; //IOwnerRepository is a type here of the variable 
-       // private readonly IDogRepository _dogRepo;
+        private readonly IDogRepository _dogRepo;
         private readonly IWalkerRepository _walkerRepo;
         private readonly INeighborhoodRepository _neighborhoodRepo;
 
@@ -21,12 +21,12 @@ namespace DogGo.Controllers
 
         public OwnersController(
             IOwnerRepository ownerRepository, // ownerRepository is a value type
-           // IDogRepository dogRepository,
+            IDogRepository dogRepository,
             IWalkerRepository walkerRepository,
             INeighborhoodRepository neighborhoodRepository)
         {
             _ownerRepo = ownerRepository;
-           // _dogRepo = dogRepository;
+            _dogRepo = dogRepository;
             _walkerRepo = walkerRepository;
             _neighborhoodRepo = neighborhoodRepository;
         }
@@ -43,14 +43,18 @@ namespace DogGo.Controllers
         public ActionResult Details(int id)
         {
             Owner owner = _ownerRepo.GetOwnerById(id);
+            if (owner == null)
+            {
+                return NotFound();
+            }
 
-           // List<Dog> dogs = _dogRepo.GetDogsByOwnerId(owner.Id);
+            List<Dog> dogs = _dogRepo.GetDogsByOwnerId(owner.Id);
             List<Walker> walkers = _walkerRepo.GetWalkersInNeighborhood(owner.NeighborhoodId);
 
             ProfileViewModel vm = new ProfileViewModel()
             {
                 Owner = owner,
-               // Dogs = dogs,
+                Dogs = dogs,
                 Walkers = walkers
             };
 
