@@ -12,19 +12,21 @@ namespace DogGo.Controllers
 {
     public class OwnersController : Controller
     {
+        //defining fields with no value yet (like let foo;)
         private readonly IOwnerRepository _ownerRepo; //IOwnerRepository is a type here of the variable 
         private readonly IDogRepository _dogRepo;
         private readonly IWalkerRepository _walkerRepo;
         private readonly INeighborhoodRepository _neighborhoodRepo;
 
 
-
+        // ASP.NET will give us an instance of our Walker Repository. This is called "Dependency Injection"
         public OwnersController(
             IOwnerRepository ownerRepository, // ownerRepository is a value type
             IDogRepository dogRepository,
             IWalkerRepository walkerRepository,
             INeighborhoodRepository neighborhoodRepository)
         {
+            //giving the variable the value of the instantiated repo
             _ownerRepo = ownerRepository;
             _dogRepo = dogRepository;
             _walkerRepo = walkerRepository;
@@ -92,17 +94,19 @@ namespace DogGo.Controllers
             }
         }
 
+        
+
         // GET: Owners/Edit/5
         public ActionResult Edit(int id)
         {
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
             Owner owner = _ownerRepo.GetOwnerById(id);
-
-            if (owner == null)
+            OwnerFormViewModel vm = new OwnerFormViewModel()
             {
-                return NotFound();
-            }
-
-            return View(owner);
+                Owner = owner,
+                Neighborhoods = neighborhoods
+            };
+            return View(vm);
         }
 
         // POST: OwnersController/Edit/5

@@ -46,6 +46,22 @@ namespace DogGo.Controllers
             return View();
         }
 
+        /* 
+         // GET: Owners/Create
+        public ActionResult Create()
+        {
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+
+            OwnerFormViewModel vm = new OwnerFormViewModel()
+            {
+                Owner = new Owner(),
+                Neighborhoods = neighborhoods
+            };
+
+            return View(vm);
+        }
+         */
+
         // POST: DogsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
