@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace DogGo.Models
 {
@@ -9,6 +6,7 @@ namespace DogGo.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        [DisplayName("Owner")]
         public int OwnerId { get; set;  }
         public string Breed { get; set; }
         public string Notes { get; set; }
