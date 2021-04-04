@@ -1,11 +1,13 @@
 ﻿using DogGo.Models;
 using DogGo.Models.ViewModels;
 using DogGo.Repositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DogGo.Controllers
@@ -34,7 +36,7 @@ namespace DogGo.Controllers
         }
 
   
-        // GET: OwnersController
+        // GET: Owners
         public ActionResult Index()
         {
             List<Owner> owners = _ownerRepo.GetAllOwners();
@@ -77,7 +79,7 @@ namespace DogGo.Controllers
             return View(vm);
         }
 
-        // POST: OwnersController/Create
+        // POST: Owners/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Owner owner)
@@ -109,7 +111,7 @@ namespace DogGo.Controllers
             return View(vm);
         }
 
-        // POST: OwnersController/Edit/5
+        // POST: Owners/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Owner owner)
@@ -149,6 +151,46 @@ namespace DogGo.Controllers
             {
                 return View(owner);
             }
+        }
+
+        //Login() GET method
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        //Login() POST method
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginViewModel viewModel)
+        {
+            Owner owner = _ownerRepo.GetOwnerByEmail(viewModel.Email);
+
+            if (owner == null)
+            {
+                return Unauthorized();
+            }
+
+            List<Claim> claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, owner.Id.ToString()),
+        new Claim(ClaimTypes.Email, owner.Email),
+        new Claim(ClaimTypes.Role, "DogOwner"),
+    };
+
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction("Index", "Dogs");
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
